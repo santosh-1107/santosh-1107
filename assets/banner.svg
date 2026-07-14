@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="100%" height="350">
+  <style>
+    .bg { fill: #0D1117; stroke: #30363D; stroke-width: 2; rx: 8px; }
+    .header { fill: #161B22; rx: 8px; }
+    .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 13px; fill: #8B949E; font-weight: 500; }
+    .terminal-body { font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace; font-size: 14px; fill: #F0F6FC; }
+    .green { fill: #00FF88; font-weight: bold; }
+    .blue { fill: #58A6FF; }
+    .muted { fill: #8B949E; }
+    .ascii { font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace; font-size: 12px; fill: #00FF88; white-space: pre; }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .cursor {
+      animation: blink 1s infinite;
+      fill: #00FF88;
+    }
+    
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    
+    .boot-line { opacity: 0; animation: fadeIn 0.3s steps(1, end) forwards; }
+    .line1 { animation-delay: 0.2s; }
+    .line2 { animation-delay: 0.8s; }
+    .line3 { animation-delay: 1.4s; }
+    .line4 { animation-delay: 2.0s; }
+    .line5 { animation-delay: 2.6s; }
+    .line6 { animation-delay: 3.2s; }
+  </style>
+
+  <!-- Main Terminal Window -->
+  <rect class="bg" width="800" height="350" x="0" y="0" />
+  
+  <!-- Window Header -->
+  <path class="header" d="M0,8 Q0,0 8,0 L792,0 Q800,0 800,8 L800,30 L0,30 Z" />
+  
+  <!-- Window Controls (Mac Style) -->
+  <circle cx="20" cy="15" r="6" fill="#FF5F56" />
+  <circle cx="40" cy="15" r="6" fill="#FFBD2E" />
+  <circle cx="60" cy="15" r="6" fill="#27C93F" />
+  
+  <!-- Terminal Title -->
+  <text x="400" y="20" text-anchor="middle" class="title">guest@santosh-core: ~ (ssh)</text>
+  
+  <!-- Terminal Body -->
+  <g class="terminal-body" transform="translate(25, 60)">
+    <!-- ASCII Art Logo -->
+    <text x="0" y="0" class="ascii">
+      <tspan x="0" dy="15"> ____    _    _   _ _____ ___  ____  _   _ </tspan>
+      <tspan x="0" dy="13">/ ___|  / \  | \ | |_   _/ _ \/ ___|| | | |</tspan>
+      <tspan x="0" dy="13">\___ \ / _ \ |  \| | | || | | \___ \| |_| |</tspan>
+      <tspan x="0" dy="13"> ___) / ___ \| |\  | | || |_| |___) |  _  |</tspan>
+      <tspan x="0" dy="13">|____/_/   \_\_| \_| |_| \___/|____/|_| |_|</tspan>
+    </text>
+    
+    <!-- Subtitle/Info -->
+    <text x="0" y="95" class="blue">[Developer Workspace v1.0.0]</text>
+    
+    <!-- Boot Sequence Lines -->
+    <g transform="translate(0, 125)">
+      <!-- Line 1 -->
+      <g class="boot-line line1">
+        <text x="0" y="0" class="muted">$ initialize --env --verbose</text>
+      </g>
+      
+      <!-- Line 2 -->
+      <g class="boot-line line2">
+        <text x="0" y="22" class="muted">Initializing core kernel modules...</text>
+        <text x="320" y="22" class="green">[ OK ]</text>
+      </g>
+      
+      <!-- Line 3 -->
+      <g class="boot-line line3">
+        <text x="0" y="44" class="muted">Checking host verification &amp; credentials...</text>
+        <text x="350" y="44" class="green">[ VERIFIED ]</text>
+      </g>
+      
+      <!-- Line 4 -->
+      <g class="boot-line line4">
+        <text x="0" y="66" class="muted">Establishing secure SSH tunnel to port 22...</text>
+        <text x="360" y="66" class="green">[ ESTABLISHED ]</text>
+      </g>
+      
+      <!-- Line 5 -->
+      <g class="boot-line line5">
+        <text x="0" y="88" class="muted">Loading tech stacks &amp; project index...</text>
+        <text x="330" y="88" class="green">[ LOADED ]</text>
+      </g>
+      
+      <!-- Line 6 -->
+      <g class="boot-line line6">
+        <text x="0" y="115" class="green">guest@santosh-core:~$ <tspan class="muted">_</tspan></text>
+        <rect x="180" y="103" width="8" height="15" class="cursor" />
+      </g>
+    </g>
+  </g>
+</svg>
