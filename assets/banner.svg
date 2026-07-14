@@ -1,99 +1,146 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="100%" height="350">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 380" width="100%" height="380">
   <style>
-    .bg { fill: #0D1117; stroke: #30363D; stroke-width: 2; rx: 8px; }
+    .bg { fill: #0D1117; stroke: #30363D; stroke-width: 1.5; rx: 8px; }
     .header { fill: #161B22; rx: 8px; }
-    .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 13px; fill: #8B949E; font-weight: 500; }
-    .terminal-body { font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace; font-size: 14px; fill: #F0F6FC; }
-    .green { fill: #00FF88; font-weight: bold; }
+    .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; fill: #8B949E; font-weight: 500; }
+    .hud-text { font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace; font-size: 13px; fill: #F0F6FC; }
+    .green { fill: #00FF88; }
+    .green-bold { fill: #00FF88; font-weight: bold; }
     .blue { fill: #58A6FF; }
+    .blue-bold { fill: #58A6FF; font-weight: bold; }
+    .purple { fill: #8B5CF6; }
+    .purple-bold { fill: #8B5CF6; font-weight: bold; }
     .muted { fill: #8B949E; }
-    .ascii { font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace; font-size: 12px; fill: #00FF88; white-space: pre; }
+    .console-text { font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; fill: #8B949E; }
     
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
     }
-    .cursor {
-      animation: blink 1s infinite;
-      fill: #00FF88;
-    }
-    
-    @keyframes fadeIn {
-      to { opacity: 1; }
+    .online-indicator {
+      animation: pulse 2s infinite;
     }
     
-    .boot-line { opacity: 0; animation: fadeIn 0.3s steps(1, end) forwards; }
-    .line1 { animation-delay: 0.2s; }
-    .line2 { animation-delay: 0.8s; }
-    .line3 { animation-delay: 1.4s; }
-    .line4 { animation-delay: 2.0s; }
-    .line5 { animation-delay: 2.6s; }
-    .line6 { animation-delay: 3.2s; }
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -1000;
+      }
+    }
+    .waveform {
+      stroke-dasharray: 1000;
+      animation: dash 20s linear infinite;
+    }
   </style>
 
-  <!-- Main Terminal Window -->
-  <rect class="bg" width="800" height="350" x="0" y="0" />
+  <defs>
+    <!-- Background Grid -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#30363D" stroke-width="0.5" opacity="0.35" />
+    </pattern>
+    <!-- Cyberpunk Gradient -->
+    <linearGradient id="cyberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FF88" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#58A6FF" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.9" />
+    </linearGradient>
+  </defs>
+
+  <!-- Main HUD Frame -->
+  <rect class="bg" width="850" height="380" x="0" y="0" />
   
   <!-- Window Header -->
-  <path class="header" d="M0,8 Q0,0 8,0 L792,0 Q800,0 800,8 L800,30 L0,30 Z" />
+  <path class="header" d="M0,8 Q0,0 8,0 L842,0 Q850,0 850,8 L850,30 L0,30 Z" />
   
-  <!-- Window Controls (Mac Style) -->
-  <circle cx="20" cy="15" r="6" fill="#FF5F56" />
-  <circle cx="40" cy="15" r="6" fill="#FFBD2E" />
-  <circle cx="60" cy="15" r="6" fill="#27C93F" />
+  <!-- macOS Style Window Control Buttons -->
+  <circle cx="20" cy="15" r="5" fill="#FF5F56" />
+  <circle cx="35" cy="15" r="5" fill="#FFBD2E" />
+  <circle cx="50" cy="15" r="5" fill="#27C93F" />
   
-  <!-- Terminal Title -->
-  <text x="400" y="20" text-anchor="middle" class="title">guest@santosh-core: ~ (ssh)</text>
+  <!-- Terminal Prompt Title -->
+  <text x="425" y="20" text-anchor="middle" class="title">root@santosh-workstation: ~/telemetry</text>
   
-  <!-- Terminal Body -->
-  <g class="terminal-body" transform="translate(25, 60)">
-    <!-- ASCII Art Logo -->
-    <text x="0" y="0" class="ascii">
-      <tspan x="0" dy="15"> ____    _    _   _ _____ ___  ____  _   _ </tspan>
-      <tspan x="0" dy="13">/ ___|  / \  | \ | |_   _/ _ \/ ___|| | | |</tspan>
-      <tspan x="0" dy="13">\___ \ / _ \ |  \| | | || | | \___ \| |_| |</tspan>
-      <tspan x="0" dy="13"> ___) / ___ \| |\  | | || |_| |___) |  _  |</tspan>
-      <tspan x="0" dy="13">|____/_/   \_\_| \_| |_| \___/|____/|_| |_|</tspan>
-    </text>
+  <!-- Grid Overlay -->
+  <rect x="1" y="31" width="848" height="348" fill="url(#grid)" />
+  
+  <!-- LEFT COLUMN: SYSTEM METRICS -->
+  <g transform="translate(25, 50)">
+    <!-- Header -->
+    <text x="0" y="20" class="purple-bold">=== SYSTEM METRICS ===</text>
     
-    <!-- Subtitle/Info -->
-    <text x="0" y="95" class="blue">[Developer Workspace v1.0.0]</text>
+    <!-- Stats lines -->
+    <g class="hud-text" transform="translate(0, 45)">
+      <text x="0" y="0" class="muted">HOST:</text>
+      <text x="100" y="0" class="blue-bold">santosh-core</text>
+      
+      <text x="0" y="20" class="muted">STATUS:</text>
+      <!-- Online Pill -->
+      <rect x="100" y="8" width="85" height="16" rx="3" fill="#161B22" stroke="#30363D" />
+      <circle cx="112" cy="16" r="4" fill="#00FF88" class="online-indicator" />
+      <text x="125" y="20" class="green-bold" font-size="11">ONLINE</text>
+      
+      <text x="0" y="45" class="muted">ROLE:</text>
+      <text x="100" y="45" class="blue">Full Stack / AI Developer</text>
+      
+      <text x="0" y="65" class="muted">UPTIME:</text>
+      <text x="100" y="65">184d 06h 42m 19s</text>
+      
+      <!-- Telemetry Bars -->
+      <text x="0" y="95" class="muted">SYS CPU:</text>
+      <text x="100" y="95" class="green">[████░░░░░░] 38.2%</text>
+      
+      <text x="0" y="115" class="muted">SYS MEM:</text>
+      <text x="100" y="115" class="blue">[██████░░░░] 60.1%</text>
+      
+      <text x="0" y="135" class="muted">THERMAL:</text>
+      <text x="100" y="135" class="green">41°C [ NOMINAL ]</text>
+    </g>
+
+    <!-- CPU CORES DETAILS PANEL -->
+    <g transform="translate(0, 210)">
+      <text x="0" y="15" class="console-text" font-weight="bold">CORE RESOURCE ALLOCATION</text>
+      <rect x="0" y="25" width="310" height="75" rx="5" fill="#090D13" stroke="#30363D" stroke-width="1" />
+      <g class="console-text" transform="translate(15, 42)">
+        <text x="0" y="0">CORE-01: <tspan class="green">[██████░░] 75%</tspan></text>
+        <text x="150" y="0">CORE-02: <tspan class="blue">[████░░░░] 50%</tspan></text>
+        <text x="0" y="18">CORE-03: <tspan class="purple">[████████] 100%</tspan></text>
+        <text x="150" y="18">CORE-04: <tspan class="green">[██░░░░░░] 25%</tspan></text>
+      </g>
+    </g>
+  </g>
+
+  <!-- RIGHT COLUMN: SIGNAL WAVEFORM & LOGS -->
+  <g transform="translate(380, 50)">
+    <!-- Header -->
+    <text x="0" y="20" class="blue-bold">=== REAL-TIME TELEMETRY ===</text>
     
-    <!-- Boot Sequence Lines -->
-    <g transform="translate(0, 125)">
-      <!-- Line 1 -->
-      <g class="boot-line line1">
-        <text x="0" y="0" class="muted">$ initialize --env --verbose</text>
-      </g>
-      
-      <!-- Line 2 -->
-      <g class="boot-line line2">
-        <text x="0" y="22" class="muted">Initializing core kernel modules...</text>
-        <text x="320" y="22" class="green">[ OK ]</text>
-      </g>
-      
-      <!-- Line 3 -->
-      <g class="boot-line line3">
-        <text x="0" y="44" class="muted">Checking host verification &amp; credentials...</text>
-        <text x="350" y="44" class="green">[ VERIFIED ]</text>
-      </g>
-      
-      <!-- Line 4 -->
-      <g class="boot-line line4">
-        <text x="0" y="66" class="muted">Establishing secure SSH tunnel to port 22...</text>
-        <text x="360" y="66" class="green">[ ESTABLISHED ]</text>
-      </g>
-      
-      <!-- Line 5 -->
-      <g class="boot-line line5">
-        <text x="0" y="88" class="muted">Loading tech stacks &amp; project index...</text>
-        <text x="330" y="88" class="green">[ LOADED ]</text>
-      </g>
-      
-      <!-- Line 6 -->
-      <g class="boot-line line6">
-        <text x="0" y="115" class="green">guest@santosh-core:~$ <tspan class="muted">_</tspan></text>
-        <rect x="180" y="103" width="8" height="15" class="cursor" />
+    <!-- Oscilloscope Window -->
+    <rect x="0" y="35" width="445" height="135" rx="6" fill="#090D13" stroke="#30363D" stroke-width="1.2" />
+    
+    <!-- Waveform Overlay (EKG Style) -->
+    <path class="waveform" d="M 5 102.5 L 35 102.5 L 45 60 L 55 145 L 65 102.5 L 115 102.5 L 125 50 L 135 155 L 145 102.5 L 205 102.5 L 215 80 L 225 125 L 235 102.5 L 305 102.5 Q 325 50 345 102.5 T 385 102.5 L 440 102.5" fill="none" stroke="url(#cyberGrad)" stroke-width="2" />
+    
+    <!-- Signals stats overlay -->
+    <g class="console-text" transform="translate(10, 50)">
+      <text x="0" y="0" class="blue">SIGNAL: DUPLEX (99.8%)</text>
+      <text x="320" y="0" class="green">RTT: 12ms</text>
+    </g>
+    
+    <!-- LOWER PANEL: LIVE SYSTEM LOGS -->
+    <g transform="translate(0, 190)">
+      <text x="0" y="15" class="green-bold">=== LIVE OBJECTIVES &amp; DAEMONS ===</text>
+      <rect x="0" y="25" width="445" height="95" rx="6" fill="#090D13" stroke="#30363D" stroke-width="1.2" />
+      <g class="console-text" transform="translate(15, 45)">
+        <text x="0" y="0" class="green">[OK]</text>
+        <text x="40" y="0">Secure Shell Daemon listener bind on port 22</text>
+        
+        <text x="0" y="18" class="blue">[INFO]</text>
+        <text x="40" y="18">Primary focus: secure developer internship</text>
+        
+        <text x="0" y="36" class="purple">[SYS]</text>
+        <text x="40" y="36">Currently compiling: Spring Boot &amp; Python ML models</text>
+        
+        <text x="0" y="54" class="green">[OK]</text>
+        <text x="40" y="54">Dynamic Telemetry Monitor nominal. Sync: standard</text>
       </g>
     </g>
   </g>
